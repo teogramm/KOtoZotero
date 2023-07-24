@@ -1,20 +1,47 @@
-# Get a number between low and high
-def prompt_for_number_in_range(low, high, prompt):
+import sys
+
+
+def info_show_processing_file(filename: str):
+    print("Processing {}".format(filename))
+
+
+def error_file_does_not_exist(filename: str):
+    print("{} does not exist or is inaccessible.".format(filename), file=sys.stderr)
+
+
+# Get a number between low and high or a string
+def prompt_for_number_in_range_or_text(low, high):
     assert low <= high
-    while True:
-        try:
-            number = int(input("{} ({}-{}):".format(prompt, low, high)))
-            if number < low or number > high:
-                raise ValueError
-            break
-        except ValueError:
-            print("Invalid selection")
-    return number
+    user_input = input("Enter a number between {} and {} or enter a different search term: ".format(low, high))
+    return user_input
 
-# Prompt the user to select
-def select_zotero_item(items: list[dict]) -> dict:
+
+def prompt_for_text() -> str:
+    user_input = input("No books were found. Enter a different search term: ")
+    return user_input
+
+
+# Prompt the user to select an item or to enter a custom term in order to redo the search
+# Returns a dict if the user selects an item or a string if the user enters a different term
+# to redo the search
+def select_zotero_item(items: list[dict]) -> dict | str:
     for num, item in enumerate(items, start=1):
-        print("{}. {} - {}".format(num,item['data']['title'], item['data']['creators'][0]['lastName']))
-    item = prompt_for_number_in_range(1, len(items), "Select book")
-    return items[item-1]
-
+        try:
+            author_last_name = item['data']['creators'][0]['lastName']
+        except IndexError:
+            author_last_name = ""
+        # Show index and book name
+        book_display = "{}. {}".format(num, item['data']['title'])
+        # Additionally add author name if it exists
+        if author_last_name:
+            book_display += " - " + author_last_name
+        print(book_display)
+    if len(items) == 0:
+        return prompt_for_text()
+    else:
+        selection = prompt_for_number_in_range_or_text(1, len(items))
+        try:
+            return items[int(selection)]
+        except (IndexError, ValueError):
+            # Either the user has not entered a number, or they have entered a number not corresponding to a selection.
+            return selection
