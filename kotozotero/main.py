@@ -6,9 +6,9 @@ from typing import List
 
 import more_itertools
 from pyzotero.zotero import Zotero
-from ui import select_zotero_item, error_file_does_not_exist, info_show_processing_file, info_show_import_successful
+from kotozotero.ui import select_zotero_item, error_file_does_not_exist, info_show_processing_file, info_show_import_successful
 
-from globals import *
+from kotozotero.globals import *
 
 zot = Zotero(user_id, 'user', api_key)
 
