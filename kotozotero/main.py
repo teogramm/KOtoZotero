@@ -6,7 +6,7 @@ from typing import List
 
 import more_itertools
 from pyzotero.zotero import Zotero
-from ui import select_zotero_item, error_file_does_not_exist, info_show_processing_file
+from ui import select_zotero_item, error_file_does_not_exist, info_show_processing_file, info_show_import_successful
 
 from globals import *
 
@@ -59,7 +59,7 @@ def import_notes(csv_file):
             zot.create_items(chunk, parentid=parent_book_id)
 
 
-## Returns the paths of the csv files which contain the notes.
+# Returns the paths of the csv files which contain the notes.
 def get_files_to_import() -> List[str]:
     return sys.argv[1:]
 
@@ -71,6 +71,7 @@ def main():
         if os.access(csv_file, os.R_OK):
             info_show_processing_file(csv_file)
             import_notes(csv_file)
+            info_show_import_successful()
         else:
             # If the file does not exist print an error
             error_file_does_not_exist(csv_file)

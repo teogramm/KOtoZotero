@@ -4,6 +4,8 @@ import sys
 def info_show_processing_file(filename: str):
     print("Processing {}".format(filename))
 
+def info_show_import_successful():
+    print("Import completed for book.")
 
 def error_file_does_not_exist(filename: str):
     print("{} does not exist or is inaccessible.".format(filename), file=sys.stderr)
@@ -41,7 +43,9 @@ def select_zotero_item(items: list[dict]) -> dict | str:
     else:
         selection = prompt_for_number_in_range_or_text(1, len(items))
         try:
-            return items[int(selection)]
+            # Try to interpret the selection as an index for an item
+            index = int(selection) - 1
+            return items[index]
         except (IndexError, ValueError):
             # Either the user has not entered a number, or they have entered a number not corresponding to a selection.
             return selection
