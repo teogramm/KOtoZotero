@@ -64,7 +64,7 @@ def get_files_to_import() -> List[str]:
     return sys.argv[1:]
 
 
-if __name__ == "__main__":
+def main():
     check_if_envvars_are_set()
     files = get_files_to_import()
     for csv_file in files:
@@ -74,3 +74,7 @@ if __name__ == "__main__":
         else:
             # If the file does not exist print an error
             error_file_does_not_exist(csv_file)
+
+
+if __name__ == "__main__":
+    main()
