@@ -1,3 +1,2 @@
 pyzotero
-PySide2
 more-itertools
