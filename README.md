@@ -1,6 +1,6 @@
 # KOtoZotero
 
-A tool to import notes extracted from KOHighlights to Zotero.
+A tool to import notes extracted from KOReader into Zotero.
 
 ## Limitations
 You have to add the books to your Zotero library before running this script.
